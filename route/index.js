@@ -26,7 +26,7 @@ module.exports = (server) => {
                 );
             }
 
-            res.send(docs);
+            res.send(docs[0]);
             next();
         });
     });
