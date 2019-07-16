@@ -52,7 +52,7 @@ class PlaceCodeSelectModel {
     selectMiddleForecastAndTempAndLandPlaceCode(params, callback) {
         const self = this;
 
-        const sql = 'select q.*, c.middle_forecast_place_code, d.middle_forecast_land_place_code, e.middle_forecast_temp_place_code from ' +
+        const sql = 'select c.middle_forecast_place_code as middleForecastPlace, d.middle_forecast_land_place_code  as middleForecastLandPlaceCode, e.middle_forecast_temp_place_code as middleForecastTempPlaceCode from ' +
             'tbl_weather_place_city_level2_code as q,\n' +
             '(select a.* from tbl_weather_place_city_level3_code as a, (select place_city_level3_id from tbl_weather_place_district_code where code = ?) b ' +
             'where a.id = b.place_city_level3_id) as t, tbl_weather_place_middle_forecast_code as c, tbl_weather_place_middle_forecast_land_code as d, tbl_weather_place_middle_forecast_temp_code as e ' +
