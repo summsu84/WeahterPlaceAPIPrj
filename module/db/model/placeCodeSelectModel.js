@@ -52,14 +52,12 @@ class PlaceCodeSelectModel {
     selectMiddleForecastAndTempAndLandPlaceCode(params, callback) {
         const self = this;
 
-        const sql = 'select a.*, c.middle_forecast_place_code, d.middle_forecast_land_place_code, e.middle_forecast_temp_place_code from tbl_weather_place_city_level2_code as a, ' +
-            '(select place_city_level3_id from tbl_weather_place_district_code where code = ?) b\n' +
-            ',(select id, middle_forecast_place_code from tbl_weather_place_middle_forecast_code) as c, ' +
-            '(select id, middle_forecast_land_place_code from tbl_weather_place_middle_forecast_land_code) as d,\n' +
-            '(select id, middle_forecast_temp_place_code from tbl_weather_place_middle_forecast_temp_code) as e\n' +
-            'where a.id = b.place_city_level3_id and a.middle_forecast_land_place_code = c.id and a.middle_forecast_temp_place_code = e.id and a.middle_forecst_place_code = d.id';
+        const sql = 'select q.*, c.middle_forecast_place_code, d.middle_forecast_land_place_code, e.middle_forecast_temp_place_code from ' +
+            'tbl_weather_place_city_level2_code as q,\n' +
+            '(select a.* from tbl_weather_place_city_level3_code as a, (select place_city_level3_id from tbl_weather_place_district_code where code = ?) b ' +
+            'where a.id = b.place_city_level3_id) as t, tbl_weather_place_middle_forecast_code as c, tbl_weather_place_middle_forecast_land_code as d, tbl_weather_place_middle_forecast_temp_code as e ' +
+            'where q.id = t.place_city_level2_id and q.middle_forecst_place_code = c.id and q.middle_forecast_land_place_code = d.id and q.middle_forecast_temp_place_code = e.id';
 
-            'SELECT A.* FROM tbl_weather_place_detail AS A, (select id from tbl_weather_place_district_code where  code = ?) AS B where place_distict_code_id = B.id';
 
         const query = self.connection.query(sql, params,  function (err, rows){
 
